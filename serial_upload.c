@@ -506,6 +506,7 @@ main(int argc, char **argv)
 {
     HANDLE fd;
     int rc;
+    int ret = EXIT_SUCCESS;
 
     cmdname = argv[0];
     state.imgchunk = 512;
@@ -535,9 +536,13 @@ main(int argc, char **argv)
     rc = echo_ctl(0);
     if (rc == 0) {
         rc = img_upload();
+    } else {
+        ret = EXIT_FAILURE;
     }
     if (rc == 0) {
         rc = reset_device();
+    } else {
+        ret = EXIT_FAILURE;
     }
 #if 0
     if (echo_ctl(1)) {
@@ -550,5 +555,5 @@ main(int argc, char **argv)
     if (rc) {
         exit(1);
     }
-    return 0;
+    return ret;
 }
